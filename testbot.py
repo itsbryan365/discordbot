@@ -6,7 +6,8 @@ import string
 import requests
 import sqlite3
 import time
-t=time
+import asyncio
+
 
 default_prefixes = ['b.']
 
@@ -64,6 +65,7 @@ async def resetprefix(ctx):
     for i in default_prefixes:
         default += f"{i} "
     await ctx.send(f"prefixes were reset to default prefixes {default}")
+ 
 
 
 @client.command()
@@ -113,7 +115,19 @@ async def memevideos(ctx):
 async def brawlstars(ctx):
     await ctx.send(f"brawlstars: https://www.youtube.com/results?search_query=brawl+stars")
   
-    
+@client.command()
+async def cat(ctx):
+    await ctx.send('''
+▒▒▒▒▒▒▒█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█
+▒▒▒▒▒▒▒█░▒▒▒▒▒▒▒▓▒▒▓▒▒▒▒▒▒▒░█
+▒▒▒▒▒▒▒█░▒▒▓▒▒▒▒▒▒▒▒▒▄▄▒▓▒▒░█░▄▄
+▒▒▄▀▀▄▄█░▒▒▒▒▒▒▓▒▒▒▒█░░▀▄▄▄▄▄▀░░█
+▒▒█░░░░█░▒▒▒▒▒▒▒▒▒▒▒█░░░░░░░░░░░█
+▒▒▒▀▀▄▄█░▒▒▒▒▓▒▒▒▓▒█░░░█▒░░░░█▒░░█
+▒▒▒▒▒▒▒█░▒▓▒▒▒▒▓▒▒▒█░░░░░░░▀░░░░░█
+▒▒▒▒▒▄▄█░▒▒▒▓▒▒▒▒▒▒▒█░░█▄▄█▄▄█░░█
+▒▒▒▒█░░░█▄▄▄▄▄▄▄▄▄▄█░█▄▄▄▄▄▄▄▄▄█
+▒▒▒▒█▄▄█░░█▄▄█░░░░░░█▄▄█░░█▄▄█''')   
 
 @client.command()
 async def server(ctx):
@@ -125,6 +139,7 @@ async def say(ctx,something):
 
 @client.command()
 async def spam(ctx, what, times):
+    t = time()
     t.sleep(10)
     for i in range(1, int(times)+1):
         await ctx.send(what)
@@ -133,6 +148,7 @@ async def spam(ctx, what, times):
 
 @client.command()
 async def timer(ctx, seconds):
+    t = time()
     await ctx.send("timer activated")
     t.sleep(int(seconds))
     await ctx.send("timers up")    
@@ -153,8 +169,8 @@ async def ng(ctx, range1, range2):
     except asyncio.TimeoutError:
         await ctx.send('game timed out.')
 @client.command()
-async def shoot(ctx, name):
-    ctx.send("(⌐▀͡ ̯ʖ▀)︻̷┻̿═━一-  %s ",(name)) 
+async def hi(ctx):
+    await ctx.send("hello") 
 
 
 
@@ -171,5 +187,5 @@ async def shoot(ctx, name):
 #     )
 #     embed.add_field(name="Weather", value =f"\n :thermometer: {(int)((result['main']['temp'] - 273.15) * 9/5 +32)} °F \n :high_brightness: Feels like {(int)((result['main']['feels_like'] - 273.15) * 9/5 +32)} °F \n :small_red_triangle: Max: {(int)((result['main']['temp_max'] - 273.15) * 9/5 +32)} °F \n :small_red_triangle_down: Min: {(int)((result['main']['temp_min'] - 273.15) * 9/5 +32)} °F", inline = True)
 #     embed.add_field(name="Winds", value = f"\n :cloud: Wind Speed: {result['wind']['speed']} MPH \n :compass: Bearing: {result['wind']['deg']} degrees \n \n :cloud_tornado: Air Pressure: {result['main']['pressure']}")
-#     await ctx.send(embed=embed)
-# client.run('NzMxOTY3MzE1NjQ1Njk0MDUz.Xwtvrw.EfiHk59pnfKlCmV4-Ta0z-BpecM')
+    # await ctx.send(embed=embed)
+client.run('NzMxOTY3MzE1NjQ1Njk0MDUz.Xwtvrw.4oqFfs5Tdb8wZmr3vqT4s1t4-Tg')

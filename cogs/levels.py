@@ -23,15 +23,22 @@ class levels(commands.Cog):
     #     10: ":diamond_shape_with_a_dot_inside:"
     #     20: ":beginner:"
     #     30: ":reminder_ribbon:"
-    #     40: ":military_metak:"
+    #     40: ":military_metal:"
+    #     50: ":sparkles"
+    #     60
     # }
-
+    
+    prev = {}
 
 
     @commands.Cog.listener()
     async def on_message(self, msg):
         if msg.author.bot:
             return
+        if msg.guild.id in self.prev:
+            if msg.author.id == self.prev[msg.guild.id]:
+                self.prev[msg.guild.id] = msg.author.id
+                return
         c.execute("SELECT * FROM users WHERE id =?", (msg.author.id,))
         data= c.fetchone()
         if not data:
@@ -44,6 +51,31 @@ class levels(commands.Cog):
             await msg.channel.send(f"congratulation {msg.author.display_name}, your iq is {new_level} ")
         c.execute("UPDATE users SET xp = ?, name = ? WHERE id = ?", (data[2]+1, msg.author.name, msg.author.id))
         conn.commit()
+        self.prev[msg.guild.id] = msg.author.id
+        
+    @commands.command(aliases = ['lvl'])  
+    async def level(self, ctx, user: typing.Optional[discord.Member]= None):
+        if not user:
+            user = ctx.author
+        c.execute("SELECT * FROM users WHERE id = ?", (ctx.author.id,)) 
+        data= c.fetchone()
+        current_level = self.find_level(data[2])
+        desc = f"**level {current_level}**\n"
+        desc += f"total xp: **{data[2]}**\n"
+        difference = self.find_xp(current_level + 1) - self.find_xp(current_level)
+        progress = data[2] - self.find_xp(current_level)
+        desc += f"**{progress}**/**{difference}** xp\n"
+        bars = round(progress/difference * 20)
+        dashes = 20 - bars
+        desc += f"level {current_level} `{'|' * bars + '-' * dashes}` level {current_level + 1}"
+        embed = discord.Embed(
+            title = f"{user.name}'s level",
+            color = user.color,
+            description = desc
+        )
+        await ctx.send(embed = embed)
+
+
 
 
     @commands.command()
